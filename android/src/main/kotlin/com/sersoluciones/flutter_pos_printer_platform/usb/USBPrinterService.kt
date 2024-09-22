@@ -35,6 +35,7 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
             val action = intent.action
             if ((ACTION_USB_PERMISSION == action)) {
                 synchronized(this) {
+
                     val usbDevice: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                         Log.i(
