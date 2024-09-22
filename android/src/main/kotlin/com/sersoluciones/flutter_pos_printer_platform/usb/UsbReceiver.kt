@@ -34,7 +34,7 @@ class UsbReceiver : BroadcastReceiver() {
             val permissionIntent: PendingIntent = PendingIntent.getBroadcast(context, 0, intent, flags)
 
             val mUSBManager = context?.getSystemService(Context.USB_SERVICE) as UsbManager?
-            mUSBManager?.requestPermission(usbDevice, mPermissionIndent)
+            mUSBManager?.requestPermission(usbDevice, permissionIntent)
 
         }
     }
