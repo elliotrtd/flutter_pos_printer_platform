@@ -7,7 +7,6 @@ import android.content.Intent
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.util.Log
-import android.
 
 class UsbReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -27,18 +26,12 @@ class UsbReceiver : BroadcastReceiver() {
             var activityThread: Class<*>? = null
             try {
                 activityThread = Class.forName("android.app.ActivityThread")
-                val appPackageName = context.getPackageName()
+                val appPackageName = context?.getPackageName()
                 intent.setPackage(appPackageName)
             } catch (e: Exception) {
                 // Not too important to throw anything
             }
             val permissionIntent: PendingIntent = PendingIntent.getBroadcast(context, 0, intent, flags)
-
-            //val mPermissionIndent = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            //    PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), PendingIntent.FLAG_IMMUTABLE)
-            //} else {
-            //    PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), 0)
-            //}
 
             val mUSBManager = context?.getSystemService(Context.USB_SERVICE) as UsbManager?
             mUSBManager?.requestPermission(usbDevice, mPermissionIndent)
@@ -46,3 +39,4 @@ class UsbReceiver : BroadcastReceiver() {
         }
     }
 }
+
