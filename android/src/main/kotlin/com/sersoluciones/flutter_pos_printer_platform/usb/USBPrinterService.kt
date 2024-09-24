@@ -33,23 +33,30 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
     private val mUsbDeviceReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
+            println(action)
             if ((ACTION_USB_PERMISSION == action)) {
+                println("permission action")
                 synchronized(this) {
-                    val usbDevice: UsbDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val usbDevice: UsbDevice? = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        print("tiramisu")
                         intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
                     } else {
+                        print("smaller")
                         intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
                     }
 
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        println("boooool")
                         Log.i(
                             LOG_TAG,
                             "Success get permission for device ${usbDevice?.deviceId}, vendor_id: ${usbDevice?.vendorId} product_id: ${usbDevice?.productId}"
                         )
                         mUsbDevice = usbDevice
                         state = STATE_USB_CONNECTED
+                        print("obtain?")
                         mHandler?.obtainMessage(STATE_USB_CONNECTED)?.sendToTarget()
                     } else {
+                        print("no bool")
                         Toast.makeText(context, mContext?.getString(R.string.user_refuse_perm) + ": ${usbDevice!!.deviceName}", Toast.LENGTH_LONG).show()
                         state = STATE_USB_NONE
                         mHandler?.obtainMessage(STATE_USB_NONE)?.sendToTarget()
