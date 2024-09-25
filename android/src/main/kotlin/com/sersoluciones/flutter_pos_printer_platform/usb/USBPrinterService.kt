@@ -32,6 +32,7 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
 
     private val mUsbDeviceReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            println("on receive")
             val action = intent.action
             println(action)
             if ((ACTION_USB_PERMISSION == action)) {
@@ -41,7 +42,7 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
                         print("tiramisu")
                         intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
                     } else {
-                        print("smaller")
+                        println("smaller")
                         intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
                     }
 
@@ -80,6 +81,8 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
 //                    Toast.makeText(context, "USB device has been turned off", Toast.LENGTH_LONG).show()
 //                    closeConnectionIfExists()
 //                }
+            } else {
+                println("Noooope")
             }
         }
     }
