@@ -10,7 +10,6 @@ import android.hardware.usb.*
 import android.os.Handler
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
 import com.sersoluciones.flutter_pos_printer_platform.R
 import java.nio.charset.Charset
 import java.util.*
@@ -39,7 +38,6 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
             if ((UsbManager.ACTION_USB_DEVICE_DETACHED == action)) {
 
                 if (mUsbDevice != null) {
-                    Toast.makeText(context, mContext?.getString(R.string.device_off), Toast.LENGTH_LONG).show()
                     closeConnectionIfExists()
                     state = STATE_USB_NONE
                     mHandler?.obtainMessage(STATE_USB_NONE)?.sendToTarget()
@@ -105,7 +103,6 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
     val deviceList: List<UsbDevice>
         get() {
             if (mUSBManager == null) {
-                Toast.makeText(mContext, mContext?.getString(R.string.not_usb_manager), Toast.LENGTH_LONG).show()
                 return emptyList()
             }
             return ArrayList(mUSBManager!!.deviceList.values)
@@ -168,7 +165,7 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
                         Log.e(LOG_TAG, "Failed to open USB Connection")
                         return false
                     }
-                    Toast.makeText(mContext, mContext?.getString(R.string.connected_device), Toast.LENGTH_SHORT).show()
+
                     return if (usbDeviceConnection.claimInterface(usbInterface, true)) {
                         mEndPoint = ep
                         mUsbInterface = usbInterface
