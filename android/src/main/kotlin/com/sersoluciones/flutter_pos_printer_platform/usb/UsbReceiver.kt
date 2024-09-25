@@ -10,6 +10,7 @@ import android.util.Log
 
 class UsbReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
+        println("nope it's this one!")
         Log.d("UsbReceiver", "Inside USB Broadcast action ${intent!!.action}")
 
         val action = intent.action
