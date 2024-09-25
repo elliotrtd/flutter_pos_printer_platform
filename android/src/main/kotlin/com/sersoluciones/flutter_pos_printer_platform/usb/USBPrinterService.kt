@@ -223,16 +223,18 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
         }
     }
 
-    fun printBytes(bytes: ArrayList<Int>?): Boolean {
+    fun printBytes(ints: ArrayList<Int>?): Boolean {
         Log.v(LOG_TAG, "Printing bytes")
         val isConnected = openConnection()
-        if (isConnected) {
+        if (isConnected && ints != null) {
             val chunkSize = mEndPoint!!.maxPacketSize
             Log.v(LOG_TAG, "Max Packet Size: $chunkSize")
             Log.v(LOG_TAG, "Connected to device")
             Thread {
                 synchronized(printLock) {
                     var b = 0
+
+                    val bytes = ints!!.foldIndexed(ByteArray(ints!!.size)) { i, a, v -> a.apply { set(i, v.toByte()) } }
                     b = mUsbDeviceConnection!!.bulkTransfer(mEndPoint, bytes, bytes.size, 100000)
 //                    val vectorData: Vector<Byte> = Vector()
 //                    for (i in bytes.indices) {
