@@ -289,7 +289,7 @@ class FlutterPosPrinterPlatformPlugin : FlutterPlugin, MethodCallHandler, Plugin
                 printRawData(raw, result)
             }
             call.method.equals("printBytes") -> {
-                val bytes: ByteArray? = call.argument("bytes")
+                val bytes: ArrayList<Int>? = call.argument("bytes")
                 printBytes(bytes, result)
             }
             else -> {
@@ -361,7 +361,7 @@ class FlutterPosPrinterPlatformPlugin : FlutterPlugin, MethodCallHandler, Plugin
         result.success(true)
     }
 
-    private fun printBytes(bytes: ByteArray?, result: Result) {
+    private fun printBytes(bytes: ArrayList<Int>?, result: Result) {
         if (bytes == null) return
         adapter.setHandler(usbHandler)
         adapter.printBytes(bytes)

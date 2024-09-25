@@ -223,7 +223,7 @@ class USBPrinterService private constructor(private var mHandler: Handler?) {
         }
     }
 
-    fun printBytes(bytes: ByteArray): Boolean {
+    fun printBytes(bytes: ArrayList<Int>?): Boolean {
         Log.v(LOG_TAG, "Printing bytes")
         val isConnected = openConnection()
         if (isConnected) {
